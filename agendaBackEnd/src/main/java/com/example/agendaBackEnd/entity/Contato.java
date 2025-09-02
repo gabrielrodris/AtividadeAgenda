@@ -3,7 +3,7 @@ package com.example.agendaBackEnd.entity;
 public class Contato {
     private String nome;
     private String telefone;
-    private String emaiil;
+    private String email;
 
     public String getNome() {
         return nome;
@@ -21,11 +21,11 @@ public class Contato {
         this.telefone = telefone;
     }
 
-    public String getEmaiil() {
-        return emaiil;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmaiil(String emaiil) {
-        this.emaiil = emaiil;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
