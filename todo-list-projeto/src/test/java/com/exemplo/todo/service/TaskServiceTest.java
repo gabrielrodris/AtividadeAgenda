@@ -51,4 +51,44 @@ class TaskServiceTest {
         when(repository.findById(99L)).thenReturn(Optional.empty());
         assertThrows(RuntimeException.class, () -> service.marcarComoConcluida(99L));
     }
+
+
+    @Test
+    void naoDeveMarcarTaskComoConcluidaSeJaEstiverConcluida() {
+        // Simula uma tarefa já concluída
+        Task task = new Task(1L, "Estudar Spring", true); // Já está concluída
+        when(repository.findById(1L)).thenReturn(Optional.of(task)); // Tarefa encontrada
+
+        Task resultado = service.marcarComoConcluida(1L);
+
+        assertTrue(resultado.isConcluida(), "A tarefa já deve estar concluída.");
+        verify(repository, times(1)).findById(1L); // Verifica que findById foi chamado
+        verify(repository, times(0)).save(any(Task.class)); // Não deve chamar save
+    }
+
+    @Test
+    void naoDeveCriarTaskComTituloVazio() {
+        // Quando o título da tarefa for vazio, esperamos que o método lance uma exceção
+        assertThrows(IllegalArgumentException.class, () -> service.criarTask(""));
+
+        // Verifica que o método save() não foi chamado no repositório, pois a tarefa não deve ser criada
+        verify(repository, times(0)).save(any(Task.class));
+    }
+
+
+    @Test
+    void deveExcluirUmaTaskComSucesso() {
+        Task task = new Task(1L, "Estudar Spring", false);
+
+        when(repository.findById(1L)).thenReturn(Optional.of(task));
+
+        service.excluirTask(1L);
+
+        verify(repository, times(1)).findById(1L);
+
+        verify(repository, times(1)).deleteById(1L);
+    }
+
+
+
 }
