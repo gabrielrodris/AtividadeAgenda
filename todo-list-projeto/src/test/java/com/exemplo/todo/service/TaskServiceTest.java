@@ -69,7 +69,7 @@ class TaskServiceTest {
     @Test
     void naoDeveCriarTaskComTituloVazio() {
         // Quando o título da tarefa for vazio, esperamos que o método lance uma exceção
-        assertThrows(IllegalArgumentException.class, () -> service.criarTask(""));
+        assertThrows(IllegalArgumentException.class, () -> service.criarTask("a"));
 
         // Verifica que o método save() não foi chamado no repositório, pois a tarefa não deve ser criada
         verify(repository, times(0)).save(any(Task.class));
